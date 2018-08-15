@@ -4,7 +4,65 @@
 #include <fstream>
 #include <string.h>
 using namespace std;
+class Sonda{
+private:
+	int x; //Coordenada X
+    int y; //Coordenada Y
+    int cont; // conta moviementos invalidos
+    char Dir;
+    
+public:
+	
+	Sonda(){
+		this->x= 0; //posição inicial x
+		this->y=0;//posição inicial y
+		this->cont=0;//nenhuma movimentação invalida
+		this->Dir='N';//A sonda inicia apontando para o Norte
+	};
+	
+	GirarSonda(char comando){
+		switch(this->Dir){
+			case 'N':
+				if(comando == 'R'){
+					this->Dir = 'E';
+				}else{
+					this->Dir = 'W';
+				}
+				break;
+				
+			case 'W':
+				if(comando == 'R'){
+					this->Dir = 'N';
+				}else{
+					this->Dir = 'S';
+				}
+				break;
+				
+			case 'S':
+				if(comando == 'R'){
+					this->Dir = 'W';
+				}else{
+					this->Dir = 'E';
+				}
+				break;
+				
+			case 'E':
+				if(comando == 'R'){
+					this->Dir = 'S';
+				}else{
+					this->Dir = 'N';
+				}
+				break;
+		}
+	
+	};
+	
+	char GetDir(){
+		return this->Dir;
+	}
+};
 
+//========================================================================================
 class Grid{
 private:
     int x; //Coordenada X
@@ -55,6 +113,21 @@ bool testeTamanhoGrid(){//teste para a criação do tamanho máximo do grid;
 	return true;
 }
 
+void Girar(string S, Sonda& Son){
+	
+	int tamanhoString= S.length();
+	
+	char array[tamanhoString + 1];
+	
+	strcpy(array,S.c_str());
+	
+	for(int i=0; i<tamanhoString; i++){
+		Son.GirarSonda(array[i]);
+	}
+	
+	
+}
+
 bool testeGirar(){//Teste para verificar a rotação da Sonda;
 
 //A sonda deve iniciar para o norte e se rotacionada para a esquerda deve girar para o oeste;
@@ -62,33 +135,33 @@ bool testeGirar(){//Teste para verificar a rotação da Sonda;
 	
 	Sonda S1,S2,S3,S4,S5;
 	
-	S1.Girar("L");
-	S2.Girar("R");
-	S3.Girar("LL");
-	S4.Girar("RRR");
-	S5.Girar("LRRL")
+	Girar("L",S1);
+	Girar("R",S2);
+	Girar("LL",S3);
+	Girar("RRR",S4);
+	Girar("LRRL",S5);
 	
-	if(S1.GetDir() != "W") {
+	if(S1.GetDir() != 'W') {
 		return false;
 	}
 	
-	if(S2.GetDir() != "E") {
+	if(S2.GetDir() != 'E') {
 		return false;
 	}
 	
-	if(S3.GetDir() != "S") {
+	if(S3.GetDir() != 'S') {
 		return false;
 	}
 	
-	if(S4.GetDir() != "W") {
+	if(S4.GetDir() != 'W') {
 		return false;
 	}
 	
-	if(S5.GetDir() != "N") {
+	if(S5.GetDir() != 'N') {
 		return false;
 	}
 	
-	
+	return true;
 	
 	
 	
@@ -96,14 +169,20 @@ bool testeGirar(){//Teste para verificar a rotação da Sonda;
 } 
 int main() {
 	//Teste do Grid--------------------------------------------
+	if(testeGirar()){
+		cout << "GIRAR = VERDE" << '\n';
+	}else{
+		cout << "GIRAR = VERMELHO" << '\n';
+	}
+	//----------------------------------------------------------
+	
+	//Teste Girar--------------------------------------------
 	if(testeTamanhoGrid()){
-		cout << "GRID = VERDE" << '\n';
+		cout << "GRID= VERDE" << '\n';
 	}else{
 		cout << "GRID = VERMELHO" << '\n';
 	}
 	//----------------------------------------------------------
-	
-	
 	
 	
 	return 0;
