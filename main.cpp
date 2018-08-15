@@ -159,21 +159,25 @@ bool testeGirar(){//Teste para verificar a rotação da Sonda;
 	
 }
 
-/*
+
 bool testeMover(){//Teste para verificar a movimentação da Sonda;
 
 //A sonda deve iniciar na posição x=0 e y=0;
 //Caso se mova a sonda deve acrescentar ou subtrair uma unidade em x ou y, dependendo da direção na qual está voltada;
 //Se a sonda tentar se mover para fora dos limites da grid ela não deve se mexer
 	
-	Sonda S1,S2,S3,S4,S5;
+	Sonda S1(5,5);
+	Sonda S2(5,5);
+	Sonda S3(5,5);
+	Sonda S4(5,5);
+	Sonda S5(1,1);
 	
 	int px,py;
 	
 	GirarMover("RM",S2);
 	GirarMover("LM",S3);
 	GirarMover("M",S4);
-	GirarMover("L",S5);
+	GirarMover("MMMM",S5);
 	
 	S1.GetPos(px,py);
 	if((px != 0) && (py != 0)) {
@@ -181,7 +185,7 @@ bool testeMover(){//Teste para verificar a movimentação da Sonda;
 	}
 	
 	S2.GetPos(px,py);
-	if((px != 0) && (py != 0)) {
+	if((px != 1) && (py != 0)) {
 		return false;
 	}
 	
@@ -191,7 +195,7 @@ bool testeMover(){//Teste para verificar a movimentação da Sonda;
 	}
 	
 	S4.GetPos(px,py);
-	if((px != 0) && (py != 0)) {
+	if((px != 0) && (py != 1)) {
 		return false;
 	}
 	
@@ -203,7 +207,7 @@ bool testeMover(){//Teste para verificar a movimentação da Sonda;
 	return true;
 	
 }
-*/
+
 //========================================================================================
 
 int main() {
@@ -223,6 +227,12 @@ int main() {
 	}
 	//----------------------------------------------------------
 	
-	
+	//Teste MOVER--------------------------------------------
+	if(testeTamanhoGrid()){
+		cout << "MOVER= VERDE" << '\n';
+	}else{
+		cout << "MOVER = VERMELHO" << '\n';
+	}
+	//----------------------------------------------------------
 	return 0;
 }
