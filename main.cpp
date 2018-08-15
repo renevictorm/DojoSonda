@@ -38,25 +38,34 @@ public:
 			case 'N':
 				if(this->y + 1 < this->my ){
 					this->y = this->y +1 ;
+				}else{
+				
+					this->cont= this->cont+1;
 				}
 				break;
 				
 			case 'W':
 				if(this->x - 1 >= 0 ){
 					this->x = this->x -1 ;
+				}else{
+					this->cont= this->cont+1;
 				}
 				break;
 				
 			case 'S':
 				if(this->y - 1 >= 0 ){
 					this->y = this->y -1 ;
+				}else{
+					this->cont= this->cont+1;
 				}
 				break;
 				
 			case 'E':
 				if(this->x + 1 < this->mx ){
 						this->x = this->x +1 ;
-					}
+				}else{
+					this->cont= this->cont+1;
+				}
 					break;
 		}
 	}
@@ -114,6 +123,13 @@ public:
 		x= this->x;
 		y= this->y;
 	}
+	void AumentaCont(){
+		this->cont= this->cont+1;
+	}
+	
+	int GetCont(){
+		return this->cont;
+	}
 };
 
 
@@ -149,8 +165,12 @@ void GirarMover(string S, Sonda& Son){//função que pega uma string do input e co
 			Son.MoverSonda();
 			
 		}else{
+			if (array[i]=='R' || array[i]=='L' ){
+					Son.GirarSonda(array[i]);
+			}else{
+				Son.AumentaCont();
+			}
 		
-			Son.GirarSonda(array[i]);
 			
 		}
 	}
@@ -217,30 +237,30 @@ bool testeMover(){//Teste para verificar a movimentação da Sonda;
 	GirarMover("RM",S2);
 	GirarMover("LM",S3);
 	GirarMover("M",S4);
-	GirarMover("MMMMMMMMMMMMM",S5);
+	GirarMover("MMMMMMMMMMMMMMMMMMMMMMM",S5);
 	
 	S1.GetPos(px,py);
-	if((px != 0) || (py != 0)) {
+	if((px != 0) && (py != 0)) {
 		return false;
 	}
 	
 	S2.GetPos(px,py);
-	if((px != 1) || (py != 0)) {
+	if((px != 1) && (py != 0)) {
 		return false;
 	}
 	
 	S3.GetPos(px,py);
-	if((px != 0) || (py != 0)) {
+	if((px != 0) && (py != 0)) {
 		return false;
 	}
 	
 	S4.GetPos(px,py);
-	if((px != 0) || (py != 1)) {
+	if((px != 0) && (py != 1)) {
 		return false;
 	}
 	
 	S5.GetPos(px,py);
-	if((px != 0) || (py != 4)) {
+	if((px != 0) && (py != 4)) {
 		return false;
 	}
 	
@@ -251,11 +271,12 @@ bool testeMover(){//Teste para verificar a movimentação da Sonda;
 //========================================================================================
 
 int main() {
+	cout << "----------------TESTES--------------------- \n" ;
 	//Teste do Grid--------------------------------------------
 	if(testeGirar()){
-		cout << "GIRAR = VERDE" << '\n';
+		cout << "GIRAR= VERDE" << '\n';
 	}else{
-		cout << "GIRAR = VERMELHO" << '\n';
+		cout << "GIRAR= VERMELHO" << '\n';
 	}
 	//----------------------------------------------------------
 	
@@ -263,7 +284,7 @@ int main() {
 	if(testeTamanhoGrid()){
 		cout << "GRID= VERDE" << '\n';
 	}else{
-		cout << "GRID = VERMELHO" << '\n';
+		cout << "GRID= VERMELHO" << '\n';
 	}
 	//----------------------------------------------------------
 	
@@ -271,8 +292,32 @@ int main() {
 	if(testeMover()){
 		cout << "MOVER= VERDE" << '\n';
 	}else{
-		cout << "MOVER = VERMELHO" << '\n';
+		cout << "MOVER= VERMELHO" << '\n';
 	}
 	//----------------------------------------------------------
+	cout << "------------------------------------------- \n\n\n" ;
+	
+	
+	int dx,dy, posx, posy; //dimensões do grid
+	cout << "Insira as dimensoes do Grid : \n X->" ;
+	
+	cin >> dx;
+	cout << " \n Y->";
+	cin >> dy;
+	
+	Sonda S(dx,dy);
+	string comands;
+	
+	
+	
+	cout << "Insira os comandos para a sonda:(M-Mover R-RotacaoParaDireita L-RotacaoParaEsquerda)  \n ->" ;
+	cin>> comands;
+
+    GirarMover(comands, S);
+	
+	S.GetPos(posx, posy);
+	cout << "Posicao em X: "<<posx << "\nPosicao em Y: " << posy << "\n\n";
+	cout << "Numero de movientos invalidos: "<< S.GetCont();
+	 
 	return 0;
 }
