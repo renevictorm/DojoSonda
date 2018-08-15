@@ -33,6 +33,33 @@ public:
 		}
 		
 	};
+	MoverSonda(){
+		switch(this->Dir){
+			case 'N':
+				if(this->y + 1 < this->my ){
+					this->y = this->y +1 ;
+				}
+				break;
+				
+			case 'W':
+				if(this->x - 1 >= 0 ){
+					this->x = this->x -1 ;
+				}
+				break;
+				
+			case 'S':
+				if(this->y - 1 >= 0 ){
+					this->y = this->y -1 ;
+				}
+				break;
+				
+			case 'E':
+				if(this->x + 1 < this->mx ){
+						this->x = this->x +1 ;
+					}
+					break;
+		}
+	}
 	
 	GirarSonda(char comando){
 		switch(this->Dir){
@@ -82,6 +109,11 @@ public:
 	int Getmy(){
 		return this->my;
 	}
+	
+	void GetPos(int& x, int& y){
+		x= this->x;
+		y= this->y;
+	}
 };
 
 
@@ -112,7 +144,15 @@ void GirarMover(string S, Sonda& Son){//função que pega uma string do input e co
 	strcpy(array,S.c_str());
 	
 	for(int i=0; i<tamanhoString; i++){
-		Son.GirarSonda(array[i]);
+		if (array[i]=='M'){
+			
+			Son.MoverSonda();
+			
+		}else{
+		
+			Son.GirarSonda(array[i]);
+			
+		}
 	}
 	
 } 
@@ -170,37 +210,37 @@ bool testeMover(){//Teste para verificar a movimentação da Sonda;
 	Sonda S2(5,5);
 	Sonda S3(5,5);
 	Sonda S4(5,5);
-	Sonda S5(1,1);
+	Sonda S5(5,5);
 	
 	int px,py;
 	
 	GirarMover("RM",S2);
 	GirarMover("LM",S3);
 	GirarMover("M",S4);
-	GirarMover("MMMM",S5);
+	GirarMover("MMMMMMMMMMMMM",S5);
 	
 	S1.GetPos(px,py);
-	if((px != 0) && (py != 0)) {
+	if((px != 0) || (py != 0)) {
 		return false;
 	}
 	
 	S2.GetPos(px,py);
-	if((px != 1) && (py != 0)) {
+	if((px != 1) || (py != 0)) {
 		return false;
 	}
 	
 	S3.GetPos(px,py);
-	if((px != 0) && (py != 0)) {
+	if((px != 0) || (py != 0)) {
 		return false;
 	}
 	
 	S4.GetPos(px,py);
-	if((px != 0) && (py != 1)) {
+	if((px != 0) || (py != 1)) {
 		return false;
 	}
 	
 	S5.GetPos(px,py);
-	if((px != 0) && (py != 0)) {
+	if((px != 0) || (py != 4)) {
 		return false;
 	}
 	
@@ -228,7 +268,7 @@ int main() {
 	//----------------------------------------------------------
 	
 	//Teste MOVER--------------------------------------------
-	if(testeTamanhoGrid()){
+	if(testeMover()){
 		cout << "MOVER= VERDE" << '\n';
 	}else{
 		cout << "MOVER = VERMELHO" << '\n';
