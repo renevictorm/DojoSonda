@@ -44,7 +44,7 @@ bool testeTamanhoGrid(){//teste para a criação do tamanho máximo do grid;
 	Grid G1(2,2);
 	Grid G2(-1,0);
 	
-	if ((G1.Getx() != 2) || (G1.Gety() != 2)){// se
+	if ((G1.Getx() != 2) || (G1.Gety() != 2)){
 		return false;
 	} 
 	
@@ -55,14 +55,55 @@ bool testeTamanhoGrid(){//teste para a criação do tamanho máximo do grid;
 	return true;
 }
 
+bool testeGirar(){//Teste para verificar a rotação da Sonda;
 
-int main() {
+//A sonda deve iniciar para o norte e se rotacionada para a esquerda deve girar para o oeste;
+//Caso rotacionada para a direita deve girar para leste e assim por diante;
 	
-	if(testeTamanhoGrid()){
-		cout << "VERDE" << '\n';
-	}else{
-		cout << "VERMELHO" << '\n';
+	Sonda S1,S2,S3,S4,S5;
+	
+	S1.Girar("L");
+	S2.Girar("R");
+	S3.Girar("LL");
+	S4.Girar("RRR");
+	S5.Girar("LRRL")
+	
+	if(S1.GetDir() != "W") {
+		return false;
 	}
+	
+	if(S2.GetDir() != "E") {
+		return false;
+	}
+	
+	if(S3.GetDir() != "S") {
+		return false;
+	}
+	
+	if(S4.GetDir() != "W") {
+		return false;
+	}
+	
+	if(S5.GetDir() != "N") {
+		return false;
+	}
+	
+	
+	
+	
+	
+	
+} 
+int main() {
+	//Teste do Grid--------------------------------------------
+	if(testeTamanhoGrid()){
+		cout << "GRID = VERDE" << '\n';
+	}else{
+		cout << "GRID = VERMELHO" << '\n';
+	}
+	//----------------------------------------------------------
+	
+	
 	
 	
 	return 0;
