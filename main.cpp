@@ -8,16 +8,30 @@ class Sonda{
 private:
 	int x; //Coordenada X
     int y; //Coordenada Y
+    int mx;//limit do grid em x
+    int my;//limit do grid em y
     int cont; // conta moviementos invalidos
     char Dir;
     
 public:
 	
-	Sonda(){
+	Sonda(int maxx,int maxy){
 		this->x= 0; //posição inicial x
 		this->y=0;//posição inicial y
 		this->cont=0;//nenhuma movimentação invalida
 		this->Dir='N';//A sonda inicia apontando para o Norte
+		if(maxx <=0){
+    		this->mx= 1;
+    	}else{
+    		this->mx=maxx;
+		}
+		
+		if(maxy <=0){
+    		this->my= 1;
+    	}else{
+    		this->my=maxy;
+		}
+		
 	};
 	
 	GirarSonda(char comando){
@@ -60,60 +74,36 @@ public:
 	char GetDir(){
 		return this->Dir;
 	}
+	
+	int Getmx(){
+		return this->mx;
+	}
+	
+	int Getmy(){
+		return this->my;
+	}
 };
 
-//========================================================================================
-class Grid{
-private:
-    int x; //Coordenada X
-    int y; //Coordenada Y
-	
-   
-public:
-    Grid(int maxx, int maxy){
-    	
-		if(maxx <=0){
-    		this->x= 1;
-    	}else{
-    		this->x=maxx;
-		}
-		
-		if(maxy <=0){
-    		this->y= 1;
-    	}else{
-    		this->y=maxy;
-		}
-	};
-	
-	int Getx(){
-		return this->x;
-	}
-	
-	int Gety(){
-		return this->x;
-	}
-    
-    
-};
+
 bool testeTamanhoGrid(){//teste para a criação do tamanho máximo do grid;
 
 //se o input for menor ou igual a 0 a aplicação deve alterar para no mínimo 1 por 1, caso contrario o teste retorna vermelho(false);  
 	
-	Grid G1(2,2);
-	Grid G2(-1,0);
+	Sonda G1(2,2);
+	Sonda G2(-1,0);
 	
-	if ((G1.Getx() != 2) || (G1.Gety() != 2)){
+	if ((G1.Getmx() != 2) || (G1.Getmy() != 2)){
 		return false;
 	} 
 	
-	if (G2.Getx() <= 0 || G2.Gety() <=0){
+	if (G2.Getmx() <= 0 || G2.Getmy() <=0){
 		return false;
 	}
 	
 	return true;
 }
 
-void Girar(string S, Sonda& Son){
+void GirarMover(string S, Sonda& Son){//função que pega uma string do input e converte em um array de char para charmar os metodos girar e mover da sonda
 	
 	int tamanhoString= S.length();
 	
@@ -125,21 +115,25 @@ void Girar(string S, Sonda& Son){
 		Son.GirarSonda(array[i]);
 	}
 	
-	
-}
+} 
 
 bool testeGirar(){//Teste para verificar a rotação da Sonda;
 
 //A sonda deve iniciar para o norte e se rotacionada para a esquerda deve girar para o oeste;
 //Caso rotacionada para a direita deve girar para leste e assim por diante;
 	
-	Sonda S1,S2,S3,S4,S5;
 	
-	Girar("L",S1);
-	Girar("R",S2);
-	Girar("LL",S3);
-	Girar("RRR",S4);
-	Girar("LRRL",S5);
+	Sonda S1(5,5);
+	Sonda S2(5,5);
+	Sonda S3(5,5);
+	Sonda S4(5,5);
+	Sonda S5(5,5);
+	
+	GirarMover("L",S1);
+	GirarMover("R",S2);
+	GirarMover("LL",S3);
+	GirarMover("RRR",S4);
+	GirarMover("LRRL",S5);
 	
 	if(S1.GetDir() != 'W') {
 		return false;
@@ -163,10 +157,55 @@ bool testeGirar(){//Teste para verificar a rotação da Sonda;
 	
 	return true;
 	
+}
+
+/*
+bool testeMover(){//Teste para verificar a movimentação da Sonda;
+
+//A sonda deve iniciar na posição x=0 e y=0;
+//Caso se mova a sonda deve acrescentar ou subtrair uma unidade em x ou y, dependendo da direção na qual está voltada;
+//Se a sonda tentar se mover para fora dos limites da grid ela não deve se mexer
 	
+	Sonda S1,S2,S3,S4,S5;
 	
+	int px,py;
 	
-} 
+	GirarMover("RM",S2);
+	GirarMover("LM",S3);
+	GirarMover("M",S4);
+	GirarMover("L",S5);
+	
+	S1.GetPos(px,py);
+	if((px != 0) && (py != 0)) {
+		return false;
+	}
+	
+	S2.GetPos(px,py);
+	if((px != 0) && (py != 0)) {
+		return false;
+	}
+	
+	S3.GetPos(px,py);
+	if((px != 0) && (py != 0)) {
+		return false;
+	}
+	
+	S4.GetPos(px,py);
+	if((px != 0) && (py != 0)) {
+		return false;
+	}
+	
+	S5.GetPos(px,py);
+	if((px != 0) && (py != 0)) {
+		return false;
+	}
+	
+	return true;
+	
+}
+*/
+//========================================================================================
+
 int main() {
 	//Teste do Grid--------------------------------------------
 	if(testeGirar()){
